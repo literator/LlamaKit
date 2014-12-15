@@ -41,7 +41,7 @@ public func failure<T>(file: String = __FILE__, line: Int = __LINE__) -> Result<
   return failure(defaultError(file: file, line: line))
 }
 
-public func failure<T>(error: ErrorType) -> Result<T> {
+public func failure<T>(error: NSError) -> Result<T> {
   return .Failure(error)
 }
 
@@ -61,7 +61,7 @@ public func try(f: NSErrorPointer -> Bool, file: String = __FILE__, line: Int = 
 /// Container for a successful value (T) or a failure with an NSError
 public enum Result<T> {
   case Success(Box<T>)
-  case Failure(ErrorType)
+  case Failure(NSError)
 
   /// The successful value as an Optional
   public var value: T? {
@@ -72,7 +72,7 @@ public enum Result<T> {
   }
 
   /// The failing error as an Optional
-  public var error: ErrorType? {
+  public var error: NSError? {
     switch self {
     case .Success: return nil
     case .Failure(let err): return err
